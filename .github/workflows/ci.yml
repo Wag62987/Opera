@@ -15,7 +15,7 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: 'wwer'
           distribution: 'temurin'
 
       - name: Build & Test
@@ -27,7 +27,9 @@ jobs:
                   mvn package -DskipTests
                 fi
 
+      - name: Build Docker Image
+        run: docker build -t app:latest .
 
       - name: Trigger Hosting Build
         if: success()
-        run: curl -X POST wedfg
+        run: curl -X POST qwerty
