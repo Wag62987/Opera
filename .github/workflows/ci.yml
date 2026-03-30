@@ -1,0 +1,33 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Build & Test
+        run: |
+                if [ -d "src/test" ]; then
+                  mvn test
+                else
+                  echo "No tests found, skipping tests"
+                  mvn package -DskipTests
+                fi
+
+
+      - name: Trigger Hosting Build
+        if: success()
+        run: curl -X POST wedfg
